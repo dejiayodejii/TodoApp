@@ -7,12 +7,12 @@ class ToDoModel {
   String? todoId;
   
 
-  ToDoModel({this.content, this.done, this.dateCreated, this.todoId});
+  ToDoModel({this.content, this.done, this.dateCreated,});
 
   ToDoModel.fromDocumentSnapshot(DocumentSnapshot? documentSnapshot) {
-    content = documentSnapshot!['content'];
+    content = documentSnapshot!['Content'];
     dateCreated = documentSnapshot['Time'];
-    todoId = documentSnapshot.id;
+   todoId = documentSnapshot.id;
     done = documentSnapshot['done'];
   }
 }

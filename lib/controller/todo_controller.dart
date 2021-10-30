@@ -9,7 +9,7 @@ import 'package:todo_app/services/database.dart';
 
 class ToDoController extends GetxController {
   
-  RxList todoList = <ToDoModel>[].obs;
+  var todoList = <ToDoModel>[].obs;
 
  List<dynamic> get todos => todoList.value;
 

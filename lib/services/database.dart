@@ -43,7 +43,7 @@ class DataBase {
     String content,
   ) async {
     try {
-      await _firestore.collection("Tasks").doc(uid).collection('todos').add({
+      await _firestore.collection("Tasks").doc(firebaseUser!.uid).collection('todos').add({
         "Content": content,
         "Time": Timestamp.now(),
         "done": false,
@@ -58,7 +58,7 @@ class DataBase {
   Stream<List<ToDoModel>> getTodoStream() {
     return _firestore
         .collection("Tasks")
-        .doc(uid)
+        .doc(firebaseUser!.uid)
         .collection("todos")
         .snapshots()
         .map((QuerySnapshot query) {
@@ -66,6 +66,8 @@ class DataBase {
       query.docs.forEach((element) {
         todoList.add(ToDoModel.fromDocumentSnapshot(element));
       });
+      print(todoList.length);
+      print('aa');
       return todoList;
     });
   }
@@ -75,7 +77,7 @@ class DataBase {
     try {
       await _firestore
           .collection("Tasks")
-          .doc(uid)
+          .doc(firebaseUser!.uid)
           .collection('todos')
           .doc(todoID)
           .update({

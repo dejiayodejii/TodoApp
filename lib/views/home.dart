@@ -7,7 +7,7 @@ import 'package:todo_app/controller/user_controller.dart';
 import 'package:todo_app/services/database.dart';
 import 'package:todo_app/services/userauth.dart';
 
-class HomeScreen extends GetWidget<Authentication> { 
+class HomeScreen extends GetWidget<Authentication> {
   ToDoController toDoController = Get.put(ToDoController());
   final TextEditingController _todoController = TextEditingController();
   @override
@@ -74,7 +74,9 @@ class HomeScreen extends GetWidget<Authentication> {
                     icon: Icon(Icons.add),
                     onPressed: () {
                       if (_todoController.text != '') {
-                        DataBase().addToDo(_todoController.text,);
+                        DataBase().addToDo(
+                          _todoController.text,
+                        );
                         _todoController.clear();
                       }
                     },
@@ -90,41 +92,48 @@ class HomeScreen extends GetWidget<Authentication> {
               fontWeight: FontWeight.bold,
             ),
           ),
-           Obx(()  { 
-            if (Get.find<ToDoController>().todoList.isNotEmpty) {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: Get.find<ToDoController>().todoList.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(Get.find<ToDoController>().todoList[index].content, 
+          Obx(() {
+            if (toDoController.todoList.isNotEmpty) {
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: Get.find<ToDoController>().todoList.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: Padding(
+                        padding: const EdgeInsets.all(11.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                toDoController.todoList[index].content!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
-                                  ),
-                                  ),
+                                ),
                               ),
-                                Checkbox(
-                                value: Get.find<ToDoController>().todoList[index].done, 
-                                onChanged:(value){
-                                  DataBase().updateToDo(value!,Get.find<ToDoController>().todoList[index].todoId);
-                                } )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                } else {
-                  print( '${Get.find<ToDoController>().todos.length}');
-                  return Text('Loading');
-                }
-          }) 
-          
+                            ),
+                            Checkbox(
+                                value: Get.find<ToDoController>()
+                                    .todoList[index]
+                                    .done,
+                                onChanged: (value) {
+                                  DataBase().updateToDo(value!,
+                                      toDoController.todoList[index].todoId!);
+                                })
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            } else {
+              
+              return Text('Loading');
+            }
+          })
         ],
       ),
     );
